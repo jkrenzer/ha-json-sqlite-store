@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Bootstrap",
+      "type": "shell",
+      "command": "poetry run poe bootstrap"
+    },
+    {
+      "label": "Ruff",
+      "type": "shell",
+      "command": "poetry run poe lint"
+    },
+    {
+      "label": "Mypy",
+      "type": "shell",
+      "command": "poetry run poe typecheck"
+    },
+    {
+      "label": "Tests",
+      "type": "shell",
+      "command": "poetry run poe test"
+    },
+    {
+      "label": "Checks",
+      "type": "shell",
+      "command": "poetry run poe check"
+    }
+  ]
+}
