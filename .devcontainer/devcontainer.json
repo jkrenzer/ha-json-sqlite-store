@@ -1,0 +1,39 @@
+{
+  "name": "ha-json-sqlite-store",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
+  "postCreateCommand": "bash .devcontainer/postCreate.sh",
+  "mounts": [
+    "source=ha-json-sqlite-store-venv,target=/workspaces/ha-json-sqlite-store/.venv,type=volume",
+    "source=ha-json-sqlite-store-poetry-cache,target=/home/vscode/.cache/pypoetry,type=volume",
+    "source=ha-json-sqlite-store-pip-cache,target=/home/vscode/.cache/pip,type=volume"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/workspaces/ha-json-sqlite-store/.venv/bin/python",
+        "python.formatting.provider": "none",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.ruff": "explicit",
+          "source.organizeImports.ruff": "explicit"
+        }
+      },
+      "extensions": [
+        "charliermarsh.ruff",
+        "ms-python.python"
+      ]
+    }
+  },
+  "forwardPorts": [8123],
+  "portsAttributes": {
+    "8123": {
+      "label": "Home Assistant",
+      "onAutoForward": "silent",
+      "requireLocalPort": true
+    }
+  }
+}

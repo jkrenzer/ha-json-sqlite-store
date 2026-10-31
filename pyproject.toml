@@ -1,0 +1,77 @@
+[tool.poetry]
+name = "ha-json-sqlite-store"
+version = "0.1.0"
+description = "Bootstrap repository for the Home Assistant json_sqlite_store integration"
+authors = ["jkrenzer"]
+license = "Apache-2.0"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.14"
+homeassistant = "2025.1.4"
+pydantic = ">=2.10.4,<3.0.0"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "1.18.2"
+poethepoet = "0.37.0"
+pre-commit = "4.4.0"
+pymarkdownlnt = "0.9.33"
+ruff = "0.14.2"
+
+[tool.poetry.group.test.dependencies]
+pytest-cov = "6.0.0"
+pytest-homeassistant-custom-component = "0.13.205"
+
+[tool.poe.tasks]
+bootstrap = "poetry check --lock && poetry install --sync --with dev,test --no-root"
+format = "ruff format ."
+lint = "ruff check ."
+typecheck = "mypy ."
+test = "pytest"
+docs = "pymarkdown scan README.md CONTRIBUTING.md AGENTS.md docs/**/*.md"
+hooks = "pre-commit run --all-files"
+check = ["lint", "typecheck", "test", "docs"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+select = ["B", "D", "E", "F", "I", "N", "ANN", "UP"]
+ignore = ["D203", "D212"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D100", "D101", "D102", "D103", "ANN201", "ANN001", "ANN401"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+warn_unused_configs = true
+explicit_package_bases = true
+exclude = ['^\\.venv/']
+
+[[tool.mypy.overrides]]
+module = ["pytest_homeassistant_custom_component.*"]
+ignore_missing_imports = true
+
+[tool.pymarkdown]
+plugins.md013.enabled = true
+plugins.md013.line_length = 88
+plugins.md041.enabled = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --strict-config"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+pythonpath = ["."]
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"

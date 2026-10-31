@@ -1,0 +1,13 @@
+{
+  "config": {
+    "abort": {
+      "not_implemented": "json_sqlite_store is in bootstrap mode and cannot be configured yet."
+    },
+    "step": {
+      "user": {
+        "title": "JSON SQLite Store",
+        "description": "Configuration is intentionally unavailable while persistence and validation phases are in progress."
+      }
+    }
+  }
+}
